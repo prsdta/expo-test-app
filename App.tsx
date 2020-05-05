@@ -1,19 +1,33 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import InputArea from "./src/components/InputArea";
+import { Provider as PaperProvider, Title } from "react-native-paper";
 
 export default function App() {
 	return (
-		<View style={styles.container}>
-			<Text>Open up App.tsx to start working on your app!</Text>
-		</View>
+		<PaperProvider>
+			<View style={{ height: "100%", width: "100%" }}>
+				<View style={styles.container}>
+					<Title style={styles.title}>天気予報を見るためのアプリです。</Title>
+					<InputArea />
+				</View>
+			</View>
+		</PaperProvider>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		height: "100%",
 		backgroundColor: "#fff",
 		alignItems: "center",
-		justifyContent: "center"
-	}
+		justifyContent: "center",
+	},
+	title: {
+		fontSize: 20,
+		fontWeight: "700",
+		color: "#333",
+		margin: 16,
+	},
 });
