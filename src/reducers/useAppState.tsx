@@ -5,7 +5,7 @@ import initialState from "./initialState";
 
 /** Create an empty context, as its real value is set by the Provider. */
 const appStateContext = createContext({} as unknown) as React.Context<
-	readonly [AppState, React.Dispatch<Action>]
+	readonly [AppState, React.Dispatch<Action<unknown>>]
 >;
 
 /**
