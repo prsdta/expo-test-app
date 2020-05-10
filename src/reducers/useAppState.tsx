@@ -1,3 +1,4 @@
+import * as React from "react";
 import { createContext, useContext, useReducer } from "react";
 
 import reducer, { AppState, Action } from "./reducer";
@@ -13,7 +14,11 @@ const appStateContext = createContext({} as unknown) as React.Context<
  * Wrap an element with it do allow usage of the useAppContext hook.
  */
 export const AppStateProvider = (props: React.PropsWithChildren<{}>) => {
-	const reducerState = useReducer<React.Reducer<AppState, Action>>(reducer, initialState());
+	const reducerState = useReducer<React.Reducer<AppState, Action>>(
+		reducer,
+		initialState()
+	);
+
 	return (
 		<appStateContext.Provider value={reducerState}>
 			{props.children}
