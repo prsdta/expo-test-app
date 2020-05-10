@@ -4,10 +4,11 @@ import { City } from "./initialState";
 /**
  * Base interface needed for each action dispatched to the reducer
  */
-export interface Action<T> {
-	type: ActionType;
-	payload?: T;
-}
+export type Action =
+	| {
+			type: "SEARCH/RECIEVE_DATA";
+			payload: LivedoorData;
+	  }
 
 /** Describes all data available in the Global State */
 export type AppState = {
@@ -16,25 +17,12 @@ export type AppState = {
 	externalData: LivedoorData | null;
 };
 
-type ActionType = "SEARCH/RECIEVE_DATA";
-
-/**
- * This holds the list of all the actions and the handler for each of them
- */
-const ActionRegister: Record<
-	ActionType,
-	(state: AppState, action: Action<any>) => AppState
-> = {
-	"SEARCH/RECIEVE_DATA": (state, action: Action<{ place: string }>) => {
-		return state;
-	},
-};
-
 /** Typical reducer function. */
-export default function (state: AppState, action: Action<unknown>) {
-	const reduce = ActionRegister[action.type];
-	if (reduce === void 0)
-		throw new Error(`No action of type ${action.type} found`);
+export default function (state: AppState, action: Action) {
+	switch (action.type) {
+		case "SEARCH/RECIEVE_DATA":
+			return { ...state, externalData: action.payload };
+	}
 
-	return reduce(state, action);
+	throw new Error(`No action of type ${action.type} found`);
 }

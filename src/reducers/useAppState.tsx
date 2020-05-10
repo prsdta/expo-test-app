@@ -5,7 +5,7 @@ import initialState from "./initialState";
 
 /** Create an empty context, as its real value is set by the Provider. */
 const appStateContext = createContext({} as unknown) as React.Context<
-	readonly [AppState, React.Dispatch<Action<unknown>>]
+	readonly [AppState, React.Dispatch<Action>]
 >;
 
 /**
@@ -13,7 +13,7 @@ const appStateContext = createContext({} as unknown) as React.Context<
  * Wrap an element with it do allow usage of the useAppContext hook.
  */
 export const AppStateProvider = (props: React.PropsWithChildren<{}>) => {
-	const reducerState = useReducer(reducer, initialState());
+	const reducerState = useReducer<React.Reducer<AppState, Action>>(reducer, initialState());
 	return (
 		<appStateContext.Provider value={reducerState}>
 			{props.children}
