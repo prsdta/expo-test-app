@@ -17,8 +17,11 @@ const LocationC = t.type({
 const DescriptionC = t.type({
 	/** 天気概況文 */
 	text: t.string,
-	/** 天気概況文の発表時刻 */
-	publicTime: DateFromString,
+	/** 天気概況文の発表時刻
+	 *
+	 * FIXME Date.parse seems not able to parse the ISO 8601 format depending on
+	 * the engine. Works in node 13 but not inside React Native runtime? */
+	publicTime: t.string,
 });
 
 export type ImageData = t.TypeOf<typeof ImageDataC>;
@@ -62,8 +65,9 @@ export type LivedoorData = t.TypeOf<typeof LivedoorDataC>;
  * Determined using http://weather.livedoor.com/weather_hacks/webservice
  */
 const LivedoorDataC = t.type({
-	/** 予報の発表日時 */
-	publicTime: DateFromString,
+	/** 予報の発表日時
+	 * FIXME same a above */
+	publicTime: t.string,
 	title: t.string,
 	link: URLFromString,
 	forecasts: t.array(ForecastC, "Forecasts"),
