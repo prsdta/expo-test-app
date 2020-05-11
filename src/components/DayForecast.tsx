@@ -18,10 +18,10 @@ const dateFormatter =
 		: (date: Date) => date.toLocaleDateString("ja");
 
 const DayForecast = ({ forecast }: PropsType) => {
-	const { date, dateLabel, telop, image } = forecast;
+	const { date, dateLabel, telop, image, temperature } = forecast;
 	const formattedDate = dateFormatter(date);
-  // cleanup trailing slash
-  // TODO move to the decoder logic instead?
+	// cleanup trailing slash
+	// TODO move to the decoder logic instead?
 	const imageURL = image.url.href.replace(/\.gif\/$/, ".gif");
 
 	return (
@@ -40,6 +40,16 @@ const DayForecast = ({ forecast }: PropsType) => {
 				accessibilityLabel={image.title}
 			/>
 			<Text style={styles.desc}>{telop}</Text>
+			{temperature.max && (
+				<View style={styles.temperatures}>
+					<Text style={styles.max}>
+						{(temperature.max?.celsius || "??") + "°C"}
+					</Text>
+					<Text style={styles.min}>
+						{(temperature.min?.celsius || "??") + "°C"}
+					</Text>
+				</View>
+			)}
 		</View>
 	);
 };
@@ -56,15 +66,34 @@ const styles = StyleSheet.create({
 		flex: 3,
 		width: "100%",
 	},
+
 	image: {
 		maxWidth: "100%",
 	},
+
 	dateInfo: {
 		flexDirection: "row",
 		justifyContent: "space-around",
 		alignItems: "center",
-	},
+  },
+
 	desc: {},
+
+	temperatures: {
+		width: "100%",
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	max: {
+		fontSize: 20,
+		fontWeight: "bold",
+		color: "red",
+		marginRight: 16, // make a gap
+	},
+	min: {
+		color: "blue",
+	},
 });
 
 export default DayForecast;
