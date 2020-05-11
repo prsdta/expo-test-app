@@ -1,4 +1,4 @@
-import { TaskEither, tryCatch, left, right, chain } from "fp-ts/lib/TaskEither";
+import { TaskEither, tryCatch } from "fp-ts/lib/TaskEither";
 import { toError } from "fp-ts/lib/Either";
 
 type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";
@@ -7,46 +7,30 @@ type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";
  * Simple way of getting data via HTTP
  */
 const performRequest = (method: HTTPMethod) => (
-	url: string
-): Promise<XMLHttpRequest> => {
-	return new Promise((right, left) => {
+	responseType: XMLHttpRequestResponseType
+) => (url: string): Promise<XMLHttpRequest['response']> =>
+	new Promise((right, left) => {
 		const request = new XMLHttpRequest();
-		request.onreadystatechange = (e) => {
-			if (request.readyState !== 4) {
-				left("cannot connect");
-			}
-
+		request.onload = (e) => {
 			if (request.status === 200) {
-				right(request);
+				right(request.response);
 			} else {
 				left("server error");
 			}
 		};
-
 		request.onerror = (e) => left(`Network error: ${request.statusText}`);
-
+		request.responseType = responseType;
 		request.open(method, url);
 		request.send();
 	});
-};
-
-const isJson = (req: XMLHttpRequest): TaskEither<Error, string> =>
-	req.responseType === "json"
-		? right(req.responseText)
-		: left(new Error("not the right content type"));
-
-const isXml = (req: XMLHttpRequest): TaskEither<Error, XMLDocument> =>
-	req.responseType === "document" && req.responseXML
-		? right(req.responseXML)
-		: left(new Error("not the right content type"));
 
 const httpRequest = (method: HTTPMethod) => (
-	url: string
-): TaskEither<Error, XMLHttpRequest> => {
-	return tryCatch(() => performRequest("GET")(url), toError);
+	responseType: XMLHttpRequestResponseType
+) => (url: string): TaskEither<Error, XMLHttpRequest> => {
+	return tryCatch(() => performRequest(method)(responseType)(url), toError);
 };
 
 /** GET helper */
-export const getJson = (url: string) => chain(isJson)(httpRequest("GET")(url));
+export const getJson = httpRequest("GET")("json");
 
-export const getXml = (url: string) => chain(isXml)(httpRequest("GET")(url));
+export const getXml = httpRequest("GET")("document");
