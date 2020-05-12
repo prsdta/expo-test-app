@@ -17,6 +17,7 @@ const dateFormatter =
 		? new Intl.DateTimeFormat("ja").format
 		: (date: Date) => date.toLocaleDateString("ja");
 
+/** Component card to display the forecast for a single day. */
 const DayForecast = ({ forecast }: PropsType) => {
 	const { date, dateLabel, telop, image, temperature } = forecast;
 	const formattedDate = dateFormatter(date);

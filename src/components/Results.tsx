@@ -1,9 +1,12 @@
 import * as React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { useAppContext } from "../reducers/useAppState";
 import DayForecast from "./DayForecast";
-import { LivedoorData, Forecast } from "../decoders/livedoor_weather";
 
+/** 
+ * Wrapper component to distribute the global data to the various display
+ * components
+ */
 const Results = () => {
 	const [state] = useAppContext();
 
