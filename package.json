@@ -8,18 +8,18 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "@effect-ts/core": "^0.11.0",
-    "@effect-ts/jest": "^0.5.0",
-    "@effect-ts/monocle": "^0.10.0",
-    "expo": "^37.0.12",
+    "@effect-ts/core": "^0.11.6",
+    "@effect-ts/jest": "^0.5.6",
+    "@effect-ts/monocle": "^0.10.6",
+    "expo": "^40.0.1",
     "fp-ts": "^2.9.3",
     "io-ts": "^2.2.13",
-    "react": "~16.9.0",
-    "react-dom": "~16.9.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
     "react-native-paper": "^3.12.0",
     "react-native-screens": "~2.2.0",
-    "react-native-web": "~0.11.7"
+    "react-native-web": "^0.15.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
